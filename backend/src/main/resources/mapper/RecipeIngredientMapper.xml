@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ziyan.recipe.mapper.RecipeIngredientMapper">
+
+    <delete id="deleteByRecipeId">
+        DELETE FROM recipe_ingredients WHERE recipe_id = #{recipeId}
+    </delete>
+
+    <select id="selectWithNamesByRecipeIds" resultType="com.ziyan.recipe.mapper.view.RecipeIngredientView">
+        SELECT ri.recipe_id AS recipeId,
+               ri.ingredient_id AS ingredientId,
+               ri.quantity,
+               i.name
+        FROM recipe_ingredients ri
+        JOIN ingredients i ON i.id = ri.ingredient_id
+        WHERE ri.recipe_id IN
+        <foreach collection="recipeIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+</mapper>

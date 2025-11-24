@@ -1,0 +1,23 @@
+{
+  "name": "紫燕菜谱",
+  "appid": "",
+  "description": "面向移动端的做菜记录与菜谱生成小程序",
+  "versionName": "0.1.0",
+  "versionCode": "100",
+  "transformPx": false,
+  "h5": {
+    "title": "紫燕菜谱",
+    "router": {
+      "mode": "history"
+    }
+  },
+  "mp-weixin": {
+    "appid": "",
+    "setting": {
+      "urlCheck": false
+    }
+  },
+  "uniStatistics": {
+    "enable": false
+  }
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ziyan.recipe.mapper.RecipeMapper">
+
+    <select id="search" resultType="com.ziyan.recipe.entity.Recipe">
+        SELECT r.*
+        FROM recipes r
+        <if test="ingredient != null and ingredient != ''">
+            JOIN recipe_ingredients ri ON ri.recipe_id = r.id
+            JOIN ingredients i ON i.id = ri.ingredient_id
+        </if>
+        WHERE 1 = 1
+        <if test="keyword != null and keyword != ''">
+            AND (r.title LIKE CONCAT('%', #{keyword}, '%')
+                 OR r.description LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+        <if test="ingredient != null and ingredient != ''">
+            AND i.name LIKE CONCAT('%', #{ingredient}, '%')
+        </if>
+        ORDER BY r.created_at DESC
+    </select>
+
+</mapper>

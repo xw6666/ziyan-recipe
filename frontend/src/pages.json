@@ -1,0 +1,51 @@
+{
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "紫燕菜谱",
+        "enablePullDownRefresh": true,
+        "backgroundColor": "#F5F7F2"
+      }
+    },
+    {
+      "path": "pages/recipe/detail",
+      "style": {
+        "navigationBarTitleText": "菜谱详情",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/recipe/edit",
+      "style": {
+        "navigationBarTitleText": "编辑菜谱"
+      }
+    },
+    {
+      "path": "pages/recipe/generate",
+      "style": {
+        "navigationBarTitleText": "AI 生成菜谱"
+      }
+    },
+    {
+      "path": "pages/user/login",
+      "style": {
+        "navigationBarTitleText": "登录 / 注册"
+      }
+    },
+    {
+      "path": "pages/user/profile",
+      "style": {
+        "navigationBarTitleText": "我的"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarBackgroundColor": "#F5F7F2",
+    "backgroundColor": "#F5F7F2"
+  },
+  "easycom": {
+    "autoscan": true
+  }
+}
