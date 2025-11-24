@@ -32,7 +32,7 @@ public class RecipeController {
         return ResponseEntity.ok(recipeService.getRecipes(q, ingredient, page, size, sort, authHeader));
     }
     
-    @GetMapping("/{id}")
+    @GetMapping("/{id:\\d+}")
     public ResponseEntity<ApiResponse> getRecipeById(
             @PathVariable Long id,
             @RequestHeader(value = "Authorization", required = false) String authHeader) {
@@ -49,7 +49,7 @@ public class RecipeController {
         return ResponseEntity.ok(recipeService.createRecipe(recipeDto, userId));
     }
     
-    @PutMapping("/{id}")
+    @PutMapping("/{id:\\d+}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ApiResponse> updateRecipe(
             @PathVariable Long id,
@@ -60,7 +60,7 @@ public class RecipeController {
         return ResponseEntity.ok(recipeService.updateRecipe(id, recipeDto, userId));
     }
     
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id:\\d+}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ApiResponse> deleteRecipe(
             @PathVariable Long id,
