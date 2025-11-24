@@ -39,14 +39,13 @@ public class LlmService {
         String prompt = buildPrompt(mainIngredients, style, taste, maxTime, servings, extraInstructions);
         
         Map<String, Object> requestBody = new HashMap<>();
-        requestBody.put("model", "moonshot-v1-8k");
+        requestBody.put("model", "deepseek-chat");
         requestBody.put("messages", List.of(
-                Map.of("role", "system", "content", "你是一位专业的菜谱生成助手。请根据用户要求生成详细的菜谱，包括标题、描述、步骤、所需食材和份量。请严格按照JSON格式返回，包含title、description、steps（字符串数组）、ingredients（对象数组，包含name和quantity）、cookTime（分钟）、difficulty（1-5的数字）字段。"),
+                Map.of("role", "system", "content", "你是一位专业的菜谱生成助手。请根据用户要求生成详细的菜谱，菜谱其中所有食材必须包含用量，其余数据包括标题、描述、步骤、所需食材和份量。请严格按照JSON格式返回，包含title、description、steps（字符串数组）、ingredients（对象数组，包含name和quantity）、cookTime（分钟）、difficulty（1-5的数字）字段。"),
                 Map.of("role", "user", "content", prompt)
         ));
         requestBody.put("temperature", 0.7);
         requestBody.put("response_format", Map.of("type", "json_object"));
-        
         String response = webClient.post()
                 .uri(llmApiEndpoint)
                 .header("Authorization", "Bearer " + llmApiKey)
@@ -57,7 +56,6 @@ public class LlmService {
                 .retryWhen(Retry.backoff(3, Duration.ofSeconds(1)))
                 .onErrorResume(e -> Mono.just(buildFallbackResponse(mainIngredients)))
                 .block();
-        
         return parseGeneratedRecipe(response);
     }
     
@@ -85,7 +83,7 @@ public class LlmService {
         try {
             JsonNode root = objectMapper.readTree(response);
             JsonNode choices = root.path("choices");
-            if (choices.isArray() && choices.size() > 0) {
+            if (choices.isArray() && !choices.isEmpty()) {
                 JsonNode message = choices.get(0).path("message");
                 JsonNode content = message.path("content");
                 
